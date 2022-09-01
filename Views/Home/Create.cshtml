@@ -1,0 +1,116 @@
+﻿@model ProductMaster.Models.ProductModel
+@addTagHelper *,Microsoft.AspNetCore.Mvc.TagHelpers
+
+
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+
+<h4 class="jumbotron">ProductModel</h4>
+<hr />
+<style>
+
+    label {
+        cursor: pointer;
+        display: inline-block;
+        padding: 3px 6px;
+        text-align: right;
+        width: 150px;
+        vertical-align: top;
+    }
+
+    input {
+        font-size: inherit;
+    }
+</style>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script>
+    $(document).ready(function () {
+        var today = new Date();
+        var tomorrow = new Date();
+        tomorrow.setDate(today.getDate() + 1);
+        $("#ExpiryDate").datepicker({
+            dateFormat: "dd-mm-yy",
+            minDate: tomorrow,
+            maxDate: "+0M +365D"
+        });
+    });
+</script>
+
+<div class="container">
+    <div class="row table table-bordered">
+        <div class="col-md-6">
+            @using (Html.BeginForm("Create", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+
+                <div class="mydiv">
+                    @Html.ValidationSummary(true)
+                </div>
+                @*<div class="mydiv">
+                        @ViewData["error"]
+                    </div>*@
+
+                @*<div class="form-group">
+                        <label asp-for="Product_Id" class="control-label"></label>
+                        <input asp-for="Product_Id" class="form-control" />
+                        <span asp-validation-for="Product_Id" class="text-danger"></span>
+                    </div>*@
+                <div class="mydiv">
+                    <label asp-for="Product_Code" class="control-label"></label>
+                    <input asp-for="Product_Code" class="form-control" />
+                    <span asp-validation-for="Product_Code" class="text-danger"></span>
+                </div>
+                <div class="mydiv">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="mydiv">
+                    <label asp-for="Description" class="control-label"></label>
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="mydiv">
+                    <label asp-for="ExpiryDate" class="control-label"></label>
+                    <input asp-for="ExpiryDate" class="form-control" readonly />
+                    <span asp-validation-for="ExpiryDate" class="text-danger"></span>
+                </div>
+                <div class="mydiv">
+                    <label asp-for="Category" class="control-label"></label>
+                    <select asp-for="Category"
+                            asp-items="@(new SelectList(Model.CatList))">
+                    </select>
+                    <span asp-validation-for="Category" class="text-danger"></span>
+                </div>
+                <div class="mydiv">
+                    <label class="control-label">Product Image</label>
+                    <input asp-for="ProfilePic" class="form-control" accept="image/*" />
+                    <span asp-validation-for="ProfilePic" class="text-danger"></span>
+                </div>
+                <div class="mydiv">
+                    <label asp-for="Status" class="control-label"></label>
+                    Active<input asp-for="Status" name="Status" type="radio" value="Active" id="A" checked />
+                    Inactive<input asp-for="Status" name="Status" type="radio" value="Inactive" id="I" />
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                </div>
+                <div class="mydiv">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
